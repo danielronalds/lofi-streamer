@@ -37,6 +37,7 @@ func main() {
     page := newPage()
 
     e.Static("/css", "css")
+    e.Static("/scripts", "scripts")
 
 	e.GET("/", func(c echo.Context) error {
 		return c.Render(200, "index", page)
