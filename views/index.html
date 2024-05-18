@@ -8,7 +8,21 @@
         <link href="css/style.css" rel="stylesheet">
     </head>
     <body>
-        Hello, world!
+        {{ template "main" . }}
+        {{ template "musicplayer" . }}
     </body>
 </html>
+{{ end }}
+
+{{ block "main" . }}
+<div id="main">
+    <p>hello, world!</p>
+</div>
+{{ end }}
+
+
+{{ block "musicplayer" . }}
+<div id="musicplayer">
+    testing
+</div>
 {{ end }}
