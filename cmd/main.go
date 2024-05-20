@@ -22,10 +22,14 @@ func newTemplates() *Templates {
 	}
 }
 
-type Page struct {}
+type Page struct {
+	VideoId string
+}
 
 func newPage() Page {
-    return Page {}
+	return Page{
+		VideoId: "jfKfPfyJRdk",
+	}
 }
 
 func main() {
@@ -34,10 +38,11 @@ func main() {
 
 	e.Renderer = newTemplates()
 
-    page := newPage()
+	page := newPage()
+	page.VideoId = "TlWYgGyNnJo"
 
-    e.Static("/css", "css")
-    e.Static("/scripts", "scripts")
+	e.Static("/css", "css")
+	e.Static("/scripts", "scripts")
 
 	e.GET("/", func(c echo.Context) error {
 		return c.Render(200, "index", page)
