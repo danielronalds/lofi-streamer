@@ -9,8 +9,8 @@ p {
 body {
     padding: 0px;
     margin: 0px;
-    width: 100vw;
-    height: 100vh;
+    width: 100%;
+    height: 100%;
 }
 
 #main {
@@ -27,13 +27,33 @@ body {
 }
 
 #musicplayer {
-    background-color: #232634;
-    width: 100vw;
-    height: 100vh;
-    z-index: 1;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
 }
 
-#musicplayer > iframe {
-    width: 100vw;
-    height: 100vh;
+#musicplayer iframe {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100vw;
+  height: 100vh;
+  border: none;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+@media (min-aspect-ratio: 16/9) {
+  #musicplayer iframe {
+    height: 56.25vw;
+  }
+}
+
+@media (max-aspect-ratio: 16/9) {
+  #musicplayer iframe {
+    width: 177.78vh;
+  }
 }

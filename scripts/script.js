@@ -13,10 +13,16 @@ function onYouTubeIframeAPIReady() {
         height: '390',
         width: '640',
         videoId: 'jfKfPfyJRdk',
+        controls: 0,
+        modestbranding: 1,
+        iv_load_policy: 3,
+        playsinline: 1,
+        disablekb: 1,
         events: {
             'onReady': onPlayerReady,
             'onStateChange': onPlayerStateChange
-        }
+        },
+        controls: 0
     });
 }
 
