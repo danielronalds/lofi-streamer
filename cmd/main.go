@@ -3,8 +3,6 @@ package main
 import (
 	"html/template"
 	"io"
-	"net/http"
-	"strconv"
 
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
@@ -26,13 +24,19 @@ func newTemplates() *Templates {
 
 type Page struct {
 	Streams       []LofiStream
-	CurrentStream LofiStream
+	FirstStream   LofiStream
+	currentStream int
+}
+
+func (p Page) getCurrentStream() LofiStream {
+	return p.Streams[p.currentStream]
 }
 
 func newPage(lofistreams []LofiStream) Page {
 	return Page{
 		Streams:       lofistreams,
-		CurrentStream: lofistreams[0],
+		FirstStream:   lofistreams[0],
+		currentStream: 0,
 	}
 }
 
@@ -45,6 +49,7 @@ func main() {
 	streams := []LofiStream{
 		newLofiStream("Lofi Girl", "jfKfPfyJRdk"),
 		newLofiStream("Chillhop Radio", "5yx6BWlEVcY"),
+		newLofiStream("Hiphop Radio", "wkhLHTmS_GI"),
 	}
 
 	page := newPage(streams)
@@ -53,21 +58,16 @@ func main() {
 		return c.Render(200, "index", page)
 	})
 
-	e.GET("/song/:id", func(c echo.Context) error {
-		idString := c.Param("id")
+	e.GET("/stream/prev", func(c echo.Context) error {
+		page.currentStream = (page.currentStream - 1) % len(page.Streams)
+		c.Render(200, "iframe", page.getCurrentStream())
+		return c.Render(200, "player", page.getCurrentStream())
+	})
 
-		id, err := strconv.Atoi(idString)
-		if err != nil {
-			return c.String(http.StatusBadRequest, "Id was not a number!")
-		}
-
-		for _, stream := range page.Streams {
-			if stream.Id == id {
-				return c.Render(200, "iframe", stream)
-			}
-		}
-
-		return c.String(http.StatusBadRequest, "Could not find a matching Id")
+	e.GET("/stream/next", func(c echo.Context) error {
+		page.currentStream = (page.currentStream + 1) % len(page.Streams)
+		c.Render(200, "iframe", page.getCurrentStream())
+		return c.Render(200, "player", page.getCurrentStream())
 	})
 
 	e.Logger.Fatal(e.Start(":8080"))

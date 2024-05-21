@@ -10,9 +10,9 @@
         {{ template "javascript" . }}
     </head>
     <body>
-      {{ template "main" . }}
       <div id="musicplayer">
-        {{ template "iframe" .CurrentStream }}
+        {{ template "iframe" .FirstStream }}
+        {{ template "player" .FirstStream }}
       </div>
     </body>
 </html>
@@ -22,20 +22,12 @@
 <iframe id="iframe" src="https://www.youtube.com/embed/{{.VideoId}}?si=bZ9hFpMbL1xoD7vQ&amp;controls=0&autoplay=1&enablejsapi=1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; web-share" referrerpolicy="strict-origin-when-cross-origin"></iframe>
 {{ end }}
 
-{{ block "main" . }}
-<div id="main">
-    <div id="playlist">
-    {{ range .Streams}}
-      {{ template "song" . }}
-    {{ end }}
+{{ block "player" . }}
+<div id="player-wrapper">
+    <div id="player">
+        <button hx-get="/stream/prev" hx-target="#musicplayer">prev</button>
+        <p>{{ .Name }}</p>
+        <button hx-get="/stream/next" hx-target="#musicplayer">next</button>
     </div>
-</div>
-{{ end }}
-
-{{ block "song" . }}
-<div class="song">
-    <img src="https://img.youtube.com/vi/{{ .VideoId }}/0.jpg" alt="{{ .Name }} Stream Thumbnail">
-    <p>{{ .Name }}</p>
-    <button type="" hx-get="/song/{{ .Id }}" hx-target="#musicplayer">Play</button>
 </div>
 {{ end }}

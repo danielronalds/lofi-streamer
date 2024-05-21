@@ -19,34 +19,29 @@ body {
     height: 100%;
 }
 
-#main {
+#player-wrapper {
     background-color: var(--bg);
     width: 400px;
-    height: 250px;
-    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    height: 70px;
     position: absolute;
+    border-radius: 20px 20px 0 0;
     left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
+    top: 100%;
+    transform: translate(-50%, -100%);
     z-index: 100;
-    overflow: scroll;
+    overflow: hidden;
 }
 
-#playlist {
-    display: flex;
-    flex-direction: column;
-}
-
-.song {
+#player {
     display: flex;
     flex-direction: row;
     width: 100%;
 }
 
-.song img {
-    width: 120px;
-    height: 80px;
-    object-fit: contain;
+#player p {
+    flex-grow: 1;
+    width: 100%;
+    text-align: center;
 }
 
 #musicplayer {
