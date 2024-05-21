@@ -34,6 +34,7 @@
 
 {{ block "song" . }}
 <div class="song">
+    <img src="https://img.youtube.com/vi/{{ .VideoId }}/0.jpg" alt="{{ .Name }} Stream Thumbnail">
     <p>{{ .Name }}</p>
     <button type="" hx-get="/song/{{ .Id }}" hx-target="#musicplayer">Play</button>
 </div>

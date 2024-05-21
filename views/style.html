@@ -29,6 +29,7 @@ body {
     top: 50%;
     transform: translate(-50%, -50%);
     z-index: 100;
+    overflow: scroll;
 }
 
 #playlist {
@@ -40,6 +41,12 @@ body {
     display: flex;
     flex-direction: row;
     width: 100%;
+}
+
+.song img {
+    width: 120px;
+    height: 80px;
+    object-fit: contain;
 }
 
 #musicplayer {
