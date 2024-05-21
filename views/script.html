@@ -1,3 +1,5 @@
+{{ block "javascript" . }}
+<script>
 const sendIframeCommand = (command) => {
   let iframe = document.getElementById("iframe");
   iframe.contentWindow.postMessage(
@@ -13,3 +15,5 @@ const pauseVideo = () => {
 const playVideo = () => {
   sendIframeCommand("playVideo");
 }
+</script>
+{{ end }}

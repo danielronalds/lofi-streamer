@@ -6,11 +6,14 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>lofi-pomodoro</title>
         <link href="css/style.css" rel="stylesheet">
-        <script src="scripts/script.js"></script>
+        {{ template "css" . }}
+        {{ template "javascript" . }}
     </head>
     <body>
-        {{ template "main" . }}
-        {{ template "musicplayer" . }}
+      {{ template "main" . }}
+      <div id="musicplayer">
+        <iframe id="iframe" src="https://www.youtube.com/embed/{{.VideoId}}?si=bZ9hFpMbL1xoD7vQ&amp;controls=0&autoplay=1&enablejsapi=1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; web-share" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+      </div>
     </body>
 </html>
 {{ end }}
@@ -18,12 +21,5 @@
 {{ block "main" . }}
 <div id="main">
     <p>hello, world!</p>
-</div>
-{{ end }}
-
-
-{{ block "musicplayer" . }}
-<div id="musicplayer">
-    {{ template "lofiplayer" . }}
 </div>
 {{ end }}
