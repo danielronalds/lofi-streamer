@@ -3,6 +3,8 @@ package main
 import (
 	"html/template"
 	"io"
+	"net/http"
+	"strconv"
 
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
@@ -23,12 +25,14 @@ func newTemplates() *Templates {
 }
 
 type Page struct {
-	VideoId string
+	Streams       []LofiStream
+	CurrentStream LofiStream
 }
 
-func newPage() Page {
+func newPage(lofistreams []LofiStream) Page {
 	return Page{
-		VideoId: "jfKfPfyJRdk",
+		Streams:       lofistreams,
+		CurrentStream: lofistreams[0],
 	}
 }
 
@@ -38,12 +42,50 @@ func main() {
 
 	e.Renderer = newTemplates()
 
-	page := newPage()
-	page.VideoId = "TlWYgGyNnJo"
+	streams := []LofiStream{
+		newLofiStream("Lofi Girl", "jfKfPfyJRdk"),
+		newLofiStream("Chillhop Radio", "5yx6BWlEVcY"),
+	}
+
+	page := newPage(streams)
 
 	e.GET("/", func(c echo.Context) error {
 		return c.Render(200, "index", page)
 	})
 
+	e.GET("/song/:id", func(c echo.Context) error {
+		idString := c.Param("id")
+
+		id, err := strconv.Atoi(idString)
+		if err != nil {
+			return c.String(http.StatusBadRequest, "Id was not a number!")
+		}
+
+		for _, stream := range page.Streams {
+			if stream.Id == id {
+				return c.Render(200, "iframe", stream)
+			}
+		}
+
+		return c.String(http.StatusBadRequest, "Could not find a matching Id")
+	})
+
 	e.Logger.Fatal(e.Start(":8080"))
+}
+
+var id int
+
+type LofiStream struct {
+	Id      int
+	Name    string
+	VideoId string
+}
+
+func newLofiStream(name string, videoid string) LofiStream {
+	id += 1
+	return LofiStream{
+		Id:      id,
+		Name:    name,
+		VideoId: videoid,
+	}
 }

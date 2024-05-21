@@ -2,10 +2,14 @@
 <style>
 :root {
     font-family: sans-serif;
+
+    /* Colours */
+    --bg: #24273a;
+    --p: #cad3f5;
 }
 
 p {
-    color: #c6d0f5;
+    color: var(--p);
 }
 
 body {
@@ -16,16 +20,26 @@ body {
 }
 
 #main {
-    background-color: #303446;
-    width: 700px;
-    height: 500px;
-    border-radius: 6px;
+    background-color: var(--bg);
+    width: 400px;
+    height: 250px;
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
     position: absolute;
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
     z-index: 100;
+}
+
+#playlist {
+    display: flex;
+    flex-direction: column;
+}
+
+.song {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
 }
 
 #musicplayer {

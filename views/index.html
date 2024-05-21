@@ -5,21 +5,36 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>lofi-pomodoro</title>
-        <link href="css/style.css" rel="stylesheet">
+        <script src="https://unpkg.com/htmx.org@1.9.12" integrity="sha384-ujb1lZYygJmzgSwoxRggbCHcjc0rB2XoQrxeTUQyRjrOnlCoYta87iKBWq3EsdM2" crossorigin="anonymous"></script>
         {{ template "css" . }}
         {{ template "javascript" . }}
     </head>
     <body>
       {{ template "main" . }}
       <div id="musicplayer">
-        <iframe id="iframe" src="https://www.youtube.com/embed/{{.VideoId}}?si=bZ9hFpMbL1xoD7vQ&amp;controls=0&autoplay=1&enablejsapi=1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; web-share" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+        {{ template "iframe" .CurrentStream }}
       </div>
     </body>
 </html>
 {{ end }}
 
+{{ block "iframe" . }}
+<iframe id="iframe" src="https://www.youtube.com/embed/{{.VideoId}}?si=bZ9hFpMbL1xoD7vQ&amp;controls=0&autoplay=1&enablejsapi=1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; web-share" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+{{ end }}
+
 {{ block "main" . }}
 <div id="main">
-    <p>hello, world!</p>
+    <div id="playlist">
+    {{ range .Streams}}
+      {{ template "song" . }}
+    {{ end }}
+    </div>
+</div>
+{{ end }}
+
+{{ block "song" . }}
+<div class="song">
+    <p>{{ .Name }}</p>
+    <button type="" hx-get="/song/{{ .Id }}" hx-target="#musicplayer">Play</button>
 </div>
 {{ end }}
