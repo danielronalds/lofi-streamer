@@ -26,8 +26,8 @@ func newTemplates() *Templates {
 
 type Page struct {
 	CurrentStream LofiStream
-	Prev int
-	Next int
+	Prev          int
+	Next          int
 }
 
 func newPage(lofistreams []LofiStream) Page {
@@ -36,13 +36,13 @@ func newPage(lofistreams []LofiStream) Page {
 
 	return Page{
 		CurrentStream: currentStream,
-		Prev: prev,
-		Next: next,
+		Prev:          prev,
+		Next:          next,
 	}
 }
 
 // Returns the indexes of the next streams, in the form (prev, next)
-func getNextPrevStreams(cur int, streamsLen int) (int, int){
+func getNextPrevStreams(cur int, streamsLen int) (int, int) {
 	prev := (cur - 1) % streamsLen
 	next := (cur + 1) % streamsLen
 
@@ -70,7 +70,7 @@ func main() {
 	e.GET("/stream/next/:songid", func(c echo.Context) error {
 		songIdStr := c.Param("songid")
 
-		songId, err := strconv.Atoi(songIdStr);
+		songId, err := strconv.Atoi(songIdStr)
 		if err != nil {
 			return c.String(400, "Song ID was not a number!")
 		}
@@ -79,9 +79,8 @@ func main() {
 			return c.String(http.StatusNotFound, "No song with that ID exists!")
 		}
 
-		page.CurrentStream = streams[songId];
+		page.CurrentStream = streams[songId]
 		page.Prev, page.Next = getNextPrevStreams(songId, len(streams))
-
 
 		c.Render(200, "iframe", page.CurrentStream)
 		return c.Render(200, "player", page)
