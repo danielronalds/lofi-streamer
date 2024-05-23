@@ -3,6 +3,8 @@ package main
 import (
 	"html/template"
 	"io"
+	"net/http"
+	"strconv"
 
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
@@ -23,21 +25,28 @@ func newTemplates() *Templates {
 }
 
 type Page struct {
-	Streams       []LofiStream
-	FirstStream   LofiStream
-	currentStream int
-}
-
-func (p Page) getCurrentStream() LofiStream {
-	return p.Streams[p.currentStream]
+	CurrentStream LofiStream
+	Prev int
+	Next int
 }
 
 func newPage(lofistreams []LofiStream) Page {
+	currentStream := lofistreams[0]
+	prev, next := getNextPrevStreams(0, len(lofistreams))
+
 	return Page{
-		Streams:       lofistreams,
-		FirstStream:   lofistreams[0],
-		currentStream: 0,
+		CurrentStream: currentStream,
+		Prev: prev,
+		Next: next,
 	}
+}
+
+// Returns the indexes of the next streams, in the form (prev, next)
+func getNextPrevStreams(cur int, streamsLen int) (int, int){
+	prev := (cur - 1) % streamsLen
+	next := (cur + 1) % streamsLen
+
+	return prev, next
 }
 
 func main() {
@@ -58,16 +67,24 @@ func main() {
 		return c.Render(200, "index", page)
 	})
 
-	e.GET("/stream/prev", func(c echo.Context) error {
-		page.currentStream = (page.currentStream - 1) % len(page.Streams)
-		c.Render(200, "iframe", page.getCurrentStream())
-		return c.Render(200, "player", page.getCurrentStream())
-	})
+	e.GET("/stream/next/:songid", func(c echo.Context) error {
+		songIdStr := c.Param("songid")
 
-	e.GET("/stream/next", func(c echo.Context) error {
-		page.currentStream = (page.currentStream + 1) % len(page.Streams)
-		c.Render(200, "iframe", page.getCurrentStream())
-		return c.Render(200, "player", page.getCurrentStream())
+		songId, err := strconv.Atoi(songIdStr);
+		if err != nil {
+			return c.String(400, "Song ID was not a number!")
+		}
+
+		if songId >= len(streams) {
+			return c.String(http.StatusNotFound, "No song with that ID exists!")
+		}
+
+		page.CurrentStream = streams[songId];
+		page.Prev, page.Next = getNextPrevStreams(songId, len(streams))
+
+
+		c.Render(200, "iframe", page.CurrentStream)
+		return c.Render(200, "player", page)
 	})
 
 	e.Logger.Fatal(e.Start(":8080"))

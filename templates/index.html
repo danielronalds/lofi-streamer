@@ -11,8 +11,8 @@
     </head>
     <body>
       <div id="musicplayer">
-        {{ template "iframe" .FirstStream }}
-        {{ template "player" .FirstStream }}
+        {{ template "iframe" .CurrentStream }}
+        {{ template "player" . }}
       </div>
     </body>
 </html>
@@ -25,9 +25,9 @@
 {{ block "player" . }}
 <div id="player-wrapper">
     <div id="player">
-        <button hx-get="/stream/prev" hx-target="#musicplayer">prev</button>
-        <p>{{ .Name }}</p>
-        <button hx-get="/stream/next" hx-target="#musicplayer">next</button>
+        <button hx-get="/stream/next/{{ .Prev }}" hx-target="#musicplayer">prev</button>
+        <p>{{ .CurrentStream.Name }}</p>
+        <button hx-get="/stream/next/{{ .Next }}" hx-target="#musicplayer">next</button>
     </div>
 </div>
 {{ end }}
