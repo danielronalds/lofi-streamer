@@ -1,33 +1,37 @@
 {{ block "index" .}}
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>lofi-pomodoro</title>
-        <script src="https://unpkg.com/htmx.org@1.9.12" integrity="sha384-ujb1lZYygJmzgSwoxRggbCHcjc0rB2XoQrxeTUQyRjrOnlCoYta87iKBWq3EsdM2" crossorigin="anonymous"></script>
-        {{ template "css" . }}
-        {{ template "javascript" . }}
-    </head>
-    <body>
-      <div id="musicplayer">
-        {{ template "iframe" .CurrentStream }}
-        {{ template "player" . }}
-      </div>
-    </body>
-</html>
-{{ end }}
-
-{{ block "iframe" . }}
-<iframe id="iframe" src="https://www.youtube.com/embed/{{.VideoId}}?si=bZ9hFpMbL1xoD7vQ&amp;controls=0&autoplay=1&enablejsapi=1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; web-share" referrerpolicy="strict-origin-when-cross-origin"></iframe>
-{{ end }}
-
-{{ block "player" . }}
-<div id="player-wrapper">
-    <div id="player">
-        <button hx-get="/stream/next/{{ .Prev }}" hx-target="#musicplayer">prev</button>
-        <p>{{ .CurrentStream.Name }}</p>
-        <button hx-get="/stream/next/{{ .Next }}" hx-target="#musicplayer">next</button>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>lofi-pomodoro</title>
+    <script
+      src="https://unpkg.com/htmx.org@1.9.12"
+      integrity="sha384-ujb1lZYygJmzgSwoxRggbCHcjc0rB2XoQrxeTUQyRjrOnlCoYta87iKBWq3EsdM2"
+      crossorigin="anonymous"
+    ></script>
+    {{ template "css" . }} {{ template "javascript" . }}
+  </head>
+  <body>
+    <div id="musicplayer">
+      {{ template "iframe" .CurrentStream }} {{ template "player" . }}
     </div>
+  </body>
+</html>
+{{ end }} {{ block "iframe" . }}
+<iframe
+  id="iframe"
+  src="https://www.youtube.com/embed/{{.VideoId}}?si=bZ9hFpMbL1xoD7vQ&amp;controls=0&autoplay=1&enablejsapi=1"
+  frameborder="0"
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; web-share"
+  referrerpolicy="strict-origin-when-cross-origin"
+></iframe>
+{{ end }} {{ block "player" . }}
+<div id="player-wrapper">
+  <div id="player">
+    {{ template "prevButton" . }}
+    <p>{{ .CurrentStream.Name }}</p>
+    {{ template "nextButton" . }}
+  </div>
 </div>
 {{ end }}
