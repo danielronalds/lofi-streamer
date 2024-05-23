@@ -43,7 +43,7 @@ func newPage(lofistreams []LofiStream) Page {
 
 // Returns the indexes of the next streams, in the form (prev, next)
 func getNextPrevStreams(cur int, streamsLen int) (int, int) {
-	prev := (cur - 1) % streamsLen
+	prev := (cur - 1 + streamsLen) % streamsLen // Ensuring only positive numbers are returned
 	next := (cur + 1) % streamsLen
 
 	return prev, next
@@ -72,7 +72,7 @@ func main() {
 
 		songId, err := strconv.Atoi(songIdStr)
 		if err != nil {
-			return c.String(400, "Song ID was not a number!")
+			return c.String(http.StatusBadRequest, "Song ID was not a number!")
 		}
 
 		if songId >= len(streams) {
