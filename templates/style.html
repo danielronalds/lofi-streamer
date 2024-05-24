@@ -22,10 +22,21 @@ body {
     background-color: black;
 }
 
+.skip-buttons {
+    padding: 10px;
+    transition: all 0.125s ease-in-out;
+}
+
+.skip-buttons:hover {
+    filter: brightness(70%);
+    cursor: pointer;
+}
+
 #player-wrapper {
     background-color: var(--bg);
-    width: 400px;
-    height: 70px;
+    width: auto;
+    min-width: 300px;
+    height: 60px;
     position: absolute;
     border-radius: 20px 20px 0 0;
     left: 50%;
@@ -33,6 +44,8 @@ body {
     transform: translate(-50%, -100%);
     z-index: 100;
     overflow: hidden;
+    display: flex;
+    align-items: center;
 }
 
 #player {
@@ -45,6 +58,7 @@ body {
     flex-grow: 1;
     width: 100%;
     text-align: center;
+    align-content: center;
 }
 
 #musicplayer {
