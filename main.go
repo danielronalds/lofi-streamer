@@ -55,10 +55,9 @@ func main() {
 
 	e.Renderer = newTemplates()
 
-	streams := []LofiStream{
-		newLofiStream("Lofi Girl", "jfKfPfyJRdk"),
-		newLofiStream("Chillhop Radio", "5yx6BWlEVcY"),
-		newLofiStream("Hiphop Radio", "wkhLHTmS_GI"),
+	streams, err := readStreamsFromJSON("streams.json")
+	if err != nil {
+		panic(err)
 	}
 
 	page := newPage(streams)
