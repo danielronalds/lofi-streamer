@@ -16,7 +16,7 @@
     <div id="musicplayer">
       {{ template "iframe" .CurrentStream }} 
       {{ template "player" . }}
-      {{ template "timer" . }}
+      {{ template "title" . }}
     </div>
   </body>
 </html>
@@ -35,17 +35,16 @@
 <div id="player-wrapper">
   <div id="player">
     {{ template "prevButton" . }}
-    <p>{{ .CurrentStream.Name }}</p>
+    {{ template "pauseButton" . }}
     {{ template "nextButton" . }}
   </div>
 </div>
 {{ end }}
 
-{{ block "timer" . }}
-<div id="timer-wrapper">
-  <div id="timer">
-      {{ template "pauseButton" . }}
-      <p>25:00</p>
+{{ block "title" . }}
+<div id="stream-title-wrapper">
+  <div id="stream-title">
+    <p>{{ .CurrentStream.Name }}</p>
   </div>
 </div>
 {{ end }}

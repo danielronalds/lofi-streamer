@@ -83,15 +83,15 @@ func main() {
 
 		c.Render(200, "iframe", page.CurrentStream)
 		c.Render(200, "player", page)
-		return c.Render(200, "timer", page)
+		return c.Render(200, "title", page)
 	})
 
-	e.GET("/pause", func (c echo.Context) error {
-		return c.Render(200, "playButton", page)
-	})
-
-	e.GET("/play", func (c echo.Context) error {
+	e.GET("/pause-button", func (c echo.Context) error {
 		return c.Render(200, "pauseButton", page)
+	})
+
+	e.GET("/play-button", func (c echo.Context) error {
+		return c.Render(200, "playButton", page)
 	})
 
 	e.Logger.Fatal(e.Start(":8080"))
