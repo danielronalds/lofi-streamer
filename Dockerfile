@@ -3,6 +3,7 @@ FROM golang:1.22-alpine
 
 WORKDIR /app
 
+COPY src/ ./src/
 COPY go.mod ./
 
 ADD *.go .
@@ -11,7 +12,7 @@ COPY streams.json .
 
 RUN go mod tidy
 
-RUN go build -o ./lofi-streamer .
+RUN go build -o ./lofi-streamer ./src
 
 EXPOSE 8080
 
