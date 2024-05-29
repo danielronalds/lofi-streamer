@@ -82,7 +82,8 @@ func main() {
 		page.Prev, page.Next = getNextPrevStreams(songId, len(streams))
 
 		c.Render(200, "iframe", page.CurrentStream)
-		return c.Render(200, "player", page)
+		c.Render(200, "player", page)
+		return c.Render(200, "timer", page)
 	})
 
 	e.Logger.Fatal(e.Start(":8080"))

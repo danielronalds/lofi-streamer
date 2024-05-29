@@ -14,11 +14,15 @@
   </head>
   <body>
     <div id="musicplayer">
-      {{ template "iframe" .CurrentStream }} {{ template "player" . }}
+      {{ template "iframe" .CurrentStream }} 
+      {{ template "player" . }}
+      {{ template "timer" . }}
     </div>
   </body>
 </html>
-{{ end }} {{ block "iframe" . }}
+{{ end }} 
+
+{{ block "iframe" . }}
 <iframe
   id="iframe"
   src="https://www.youtube.com/embed/{{.VideoId}}?si=bZ9hFpMbL1xoD7vQ&amp;controls=0&autoplay=1&enablejsapi=1"
@@ -34,6 +38,15 @@
     {{ template "prevButton" . }}
     <p>{{ .CurrentStream.Name }}</p>
     {{ template "nextButton" . }}
+  </div>
+</div>
+{{ end }}
+
+{{ block "timer" . }}
+<div id="timer-wrapper">
+  <div id="timer">
+      {{ template "pauseButton" . }}
+      <p>25:00</p>
   </div>
 </div>
 {{ end }}

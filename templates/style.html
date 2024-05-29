@@ -22,12 +22,12 @@ body {
     background-color: black;
 }
 
-.skip-buttons {
+.icons {
     padding: 10px;
     transition: all 0.125s ease-in-out;
 }
 
-.skip-buttons:hover {
+.icons:hover {
     filter: brightness(70%);
     cursor: pointer;
 }
@@ -55,6 +55,35 @@ body {
 }
 
 #player p {
+    flex-grow: 1;
+    width: 100%;
+    text-align: center;
+    align-content: center;
+}
+
+#timer-wrapper {
+    background-color: var(--bg);
+    width: auto;
+    min-width: 300px;
+    height: 60px;
+    position: absolute;
+    border-radius: 0 0 20px 20px;
+    left: 100%;
+    top: 0;
+    transform: translate(-110%, 0);
+    z-index: 100;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+}
+
+#timer {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+
+#timer p {
     flex-grow: 1;
     width: 100%;
     text-align: center;
