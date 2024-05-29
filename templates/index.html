@@ -45,6 +45,7 @@
 <div id="stream-title-wrapper">
   <div id="stream-title">
     <p>{{ .CurrentStream.Name }}</p>
+    {{ template "shuffleButton" .}}
   </div>
 </div>
 {{ end }}

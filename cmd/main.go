@@ -1,6 +1,7 @@
 package main
 
 import (
+	"math/rand/v2"
 	"html/template"
 	"io"
 	"net/http"
@@ -86,6 +87,17 @@ func main() {
 		return c.Render(200, "title", page)
 	})
 
+	e.GET("/stream/random", func (c echo.Context) error {
+		randId := rand.IntN(len(streams))
+
+		page.CurrentStream = streams[randId];
+		page.Prev, page.Next = getNextPrevStreams(randId, len(streams))
+
+		c.Render(200, "iframe", page.CurrentStream)
+		c.Render(200, "player", page)
+		return c.Render(200, "title", page)
+	})
+
 	e.GET("/pause-button", func (c echo.Context) error {
 		return c.Render(200, "pauseButton", page)
 	})
@@ -93,6 +105,7 @@ func main() {
 	e.GET("/play-button", func (c echo.Context) error {
 		return c.Render(200, "playButton", page)
 	})
+
 
 	e.Logger.Fatal(e.Start(":8080"))
 }
