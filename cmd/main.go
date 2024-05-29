@@ -27,16 +27,19 @@ func newTemplates() *Templates {
 
 type Page struct {
 	CurrentStream LofiStream
+	Current       int
 	Prev          int
 	Next          int
 }
 
 func newPage(lofistreams []LofiStream) Page {
-	currentStream := lofistreams[0]
-	prev, next := getNextPrevStreams(0, len(lofistreams))
+	current := 0;
+	currentStream := lofistreams[current]
+	prev, next := getNextPrevStreams(current, len(lofistreams))
 
 	return Page{
 		CurrentStream: currentStream,
+		Current:       current,
 		Prev:          prev,
 		Next:          next,
 	}
@@ -80,6 +83,7 @@ func main() {
 		}
 
 		page.CurrentStream = streams[songId]
+		page.Current = songId
 		page.Prev, page.Next = getNextPrevStreams(songId, len(streams))
 
 		c.Render(200, "iframe", page.CurrentStream)
@@ -87,10 +91,26 @@ func main() {
 		return c.Render(200, "title", page)
 	})
 
-	e.GET("/stream/random", func (c echo.Context) error {
+	e.GET("/stream/random/:songid", func (c echo.Context) error {
+		songIdStr := c.Param("songid")
+
+		songId, err := strconv.Atoi(songIdStr)
+		if err != nil {
+			return c.String(http.StatusBadRequest, "Song ID was not a number!")
+		}
+
+		if songId >= len(streams) {
+			return c.String(http.StatusNotFound, "No song with that ID exists!")
+		}
+
 		randId := rand.IntN(len(streams))
 
+		for randId == songId { // Ensuring the same song is not played again
+			randId = rand.IntN(len(streams))
+		}
+
 		page.CurrentStream = streams[randId];
+		page.Current = randId
 		page.Prev, page.Next = getNextPrevStreams(randId, len(streams))
 
 		c.Render(200, "iframe", page.CurrentStream)
