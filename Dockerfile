@@ -1,18 +1,20 @@
-# TODO: Slim down this image https://medium.com/@minhaz1217/smallest-docker-image-for-go-api-project-b204b1f41d4e
-FROM golang:1.22-alpine
+# The build stage
+FROM golang:1.22.3-bookworm as builder
 
 WORKDIR /app
 
 COPY src/ ./src/
 COPY go.mod ./
 
-ADD *.go .
-ADD templates/ ./templates
-COPY streams.json .
-
 RUN go mod tidy
 
 RUN go build -o ./lofi-streamer ./src
+
+# The run stage
+FROM debian:stable-slim
+WORKDIR /app
+COPY --from=builder /app/lofi-streamer .
+COPY streams.json .
 
 EXPOSE 8080
 
