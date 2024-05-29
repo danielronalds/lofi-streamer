@@ -1,9 +1,10 @@
 package main
 
 import (
-	"math/rand/v2"
+	"embed"
 	"html/template"
 	"io"
+	"math/rand/v2"
 	"net/http"
 	"strconv"
 
@@ -19,9 +20,12 @@ func (t *Templates) Render(w io.Writer, name string, data interface{}, c echo.Co
 	return t.templates.ExecuteTemplate(w, name, data)
 }
 
+//go:embed templates/*
+var fs embed.FS
+
 func newTemplates() *Templates {
 	return &Templates{
-		templates: template.Must(template.ParseGlob("templates/*.html")),
+		templates: template.Must(template.ParseFS(fs, "templates/*.html")),
 	}
 }
 
