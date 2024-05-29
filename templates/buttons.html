@@ -1,13 +1,14 @@
 {{ block "prevButton" . }}
 <svg
-  hx-get="/stream/next/{{ .Prev }}"
-  hx-target="#musicplayer"
   xmlns="http://www.w3.org/2000/svg"
   height="28px"
   viewBox="0 -960 960 960"
   width="28px"
   fill="#cad3f5"
   class="icons"
+
+  hx-get="/stream/next/{{ .Prev }}"
+  hx-target="#musicplayer"
 >
   <path
     d="M220-240v-480h60v480h-60Zm520 0L394-480l346-240v480Zm-60-240Zm0 125v-250L499-480l181 125Z"
@@ -17,14 +18,15 @@
 
 {{ block "nextButton" . }}
 <svg
-  hx-get="/stream/next/{{ .Next }}"
-  hx-target="#musicplayer"
   xmlns="http://www.w3.org/2000/svg"
   height="28px"
   viewBox="0 -960 960 960"
   width="28px"
   fill="#cad3f5"
   class="icons"
+
+  hx-get="/stream/next/{{ .Next }}"
+  hx-target="#musicplayer"
 >
   <path
     d="M680-240v-480h60v480h-60Zm-460 0v-480l346 240-346 240Zm60-240Zm0 125 181-125-181-125v250Z"
@@ -41,6 +43,7 @@
   fill="#cad3f5"
   class="icons"
   onclick="pauseVideo()"
+
   hx-get="/play-button"
   hx-swap="outerHTML"
 >
@@ -59,6 +62,7 @@
   fill="#cad3f5"
   class="icons"
   onclick="playVideo()"
+
   hx-get="/pause-button"
   hx-swap="outerHTML"
 >
@@ -77,6 +81,7 @@
   fill="#cad3f5"
   class="icons"
   style="padding:0px; align-self: center; margin-bottom: 3px;"
+
   hx-get="/stream/random"
   hx-target="#musicplayer"
 >
