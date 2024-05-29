@@ -86,5 +86,13 @@ func main() {
 		return c.Render(200, "timer", page)
 	})
 
+	e.GET("/pause", func (c echo.Context) error {
+		return c.Render(200, "playButton", page)
+	})
+
+	e.GET("/play", func (c echo.Context) error {
+		return c.Render(200, "pauseButton", page)
+	})
+
 	e.Logger.Fatal(e.Start(":8080"))
 }
